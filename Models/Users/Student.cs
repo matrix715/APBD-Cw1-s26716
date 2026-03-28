@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Cwiczenia2.Models.Users
 {
-    internal class Student
+    public class Student(string firstName, string lastName, string studentNuber) : User( firstName,  lastName)
     {
+        public string StudentNum { get; set; } = studentNuber;
+
+        public override string UserTyp => "Student";
+        public override int MaxRentals => 2;
     }
+    
 }

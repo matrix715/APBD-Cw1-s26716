@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cwiczenia2.Models.Equipments
 {
-    internal class EquipmentStatus
+    public enum EquipmentStatus
     {
+        Available,
+        Unavailable,
+        Rented
     }
 }
+
