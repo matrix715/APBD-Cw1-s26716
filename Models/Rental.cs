@@ -20,6 +20,7 @@ namespace Cwiczenia2.Models
         public DateTime DueDate { get; set; } = dueDate;
         public DateTime? ReturnDate { get; set; }
         public bool IsReturned { get;  set; }
+        public decimal PenaltyAmount { get; private set; } = 0;
 
 
 
@@ -27,7 +28,16 @@ namespace Cwiczenia2.Models
         public void Return(DateTime returnDate)
         {
             ReturnDate = returnDate;
-            
+            IsReturned = true;
+            if (returnDate > DueDate)
+            {
+                int lateDays = (returnDate - DueDate).Days;
+                PenaltyAmount = lateDays * 10;
+            }
+            else
+            {
+                PenaltyAmount = 0;
+            }
         }
 
         public bool IsOverdue()
