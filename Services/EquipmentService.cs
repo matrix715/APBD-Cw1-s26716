@@ -30,6 +30,15 @@ namespace Cwiczenia2.Services
         {
             return _equipment.FirstOrDefault(e => e.Id == id);
         }
+
         public void MarkAsUnavailable(int equipmentId)
+        {
+            var equipment = GetById(equipmentId);
+            if (equipment == null)
+                throw new Exception("Equipment not found.");
+
+            equipment.Status = EquipmentStatus.Unavailable;
+        }
+
     }
 }

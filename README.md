@@ -1,1 +1,89 @@
-# APBD_Cwiczenie2
+# Uczelniana wypo¿yczalnia sprzêtu
+
+## Opis projektu
+Projekt przedstawia konsolow¹ aplikacjê w jêzyku C#, która obs³uguje uczelnian¹ wypo¿yczalniê sprzêtu.  
+System umo¿liwia rejestrowanie u¿ytkowników i sprzêtu, wypo¿yczanie urz¹dzeñ, zwroty, oznaczanie sprzêtu jako niedostêpnego oraz generowanie raportów podsumowuj¹cych stan wypo¿yczalni.
+
+Projekt zosta³ przygotowany w ramach æwiczenia z programowania obiektowego w C#.
+
+## Funkcjonalnoœci
+Aplikacja umo¿liwia:
+- dodanie nowego u¿ytkownika do systemu,
+- dodanie nowego sprzêtu danego typu,
+- wyœwietlenie listy ca³ego sprzêtu z aktualnym statusem,
+- wyœwietlenie sprzêtu dostêpnego do wypo¿yczenia,
+- wypo¿yczenie sprzêtu u¿ytkownikowi,
+- zwrot sprzêtu wraz z naliczeniem kary za opóŸnienie,
+- oznaczenie sprzêtu jako niedostêpnego,
+- wyœwietlenie aktywnych wypo¿yczeñ danego u¿ytkownika,
+- wyœwietlenie listy przeterminowanych wypo¿yczeñ,
+- wygenerowanie raportu podsumowuj¹cego stan wypo¿yczalni.
+
+## Model domenowy
+W projekcie wystêpuj¹ nastêpuj¹ce elementy domenowe:
+- `Equipment` – klasa abstrakcyjna reprezentuj¹ca wspólne cechy sprzêtu,
+- `Laptop`, `Camera`, `Projector` – typy sprzêtu dziedzicz¹ce po `Equipment`,
+- `User` – klasa abstrakcyjna reprezentuj¹ca u¿ytkownika systemu,
+- `Student`, `Teacher` – typy u¿ytkowników dziedzicz¹ce po `User`,
+- `Rental` – klasa opisuj¹ca wypo¿yczenie sprzêtu.
+
+## Struktura projektu
+Projekt zosta³ podzielony na dwie g³ówne czêœci:
+- `Models` – klasy domenowe opisuj¹ce obiekty systemu,
+- `Services` – klasy odpowiedzialne za logikê biznesow¹.
+
+### Modele
+- `Equipment` – przechowuje wspólne dane sprzêtu, takie jak identyfikator, nazwa i status,
+- `Laptop` – przechowuje dodatkowo procesor i RAM,
+- `Camera` – przechowuje dodatkowo liczbê megapikseli i typ,
+- `Projector` – przechowuje dodatkowo rozdzielczoœæ i jasnoœæ,
+- `User` – przechowuje identyfikator, imiê i nazwisko,
+- `Student` – przechowuje numer studenta oraz limit wypo¿yczeñ równy 2,
+- `Teacher` – przechowuje wydzia³ oraz limit wypo¿yczeñ równy 5,
+- `Rental` – przechowuje informacje o u¿ytkowniku, sprzêcie, dacie wypo¿yczenia, terminie zwrotu, dacie zwrotu i karze.
+
+### Serwisy
+- `UserService` – odpowiada za przechowywanie i wyszukiwanie u¿ytkowników,
+- `EquipmentService` – odpowiada za przechowywanie sprzêtu, wyœwietlanie dostêpnych urz¹dzeñ i oznaczanie sprzêtu jako niedostêpnego,
+- `RentalService` – odpowiada za wypo¿yczanie i zwracanie sprzêtu oraz kontrolê limitów,
+- `ReportService` – odpowiada za generowanie raportów oraz pobieranie przeterminowanych i aktywnych wypo¿yczeñ.
+
+## Decyzje projektowe
+
+Logika biznesowa nie zosta³a umieszczona w `Program.cs`.  
+`Program.cs` pe³ni rolê interfejsu konsolowego i obs³ugi menu, natomiast operacje systemowe zosta³y przeniesione do klas serwisowych.
+
+Dziedziczenie zosta³o zastosowane tam, gdzie wynika ono bezpoœrednio z modelu domeny:
+- `Laptop`, `Camera`, `Projector` dziedzicz¹ po `Equipment`,
+- `Student` i `Teacher` dziedzicz¹ po `User`.
+
+## Kohezja, coupling i odpowiedzialnoœci klas
+W projekcie starano siê zadbaæ o czytelny podzia³ odpowiedzialnoœci:
+- klasy z folderu `Models` reprezentuj¹ dane i obiekty domenowe,
+- klasy z folderu `Services` realizuj¹ logikê operacji,
+- `Program.cs` odpowiada za komunikacjê z u¿ytkownikiem przez konsolê.
+
+Kohezja zosta³a zachowana przez to, ¿e ka¿da klasa ma jedno g³ówne zadanie.  
+Przyk³adowo `RentalService` zajmuje siê tylko wypo¿yczeniami i zwrotami, a `ReportService` tylko raportowaniem.
+
+Sprzê¿enie miêdzy klasami zosta³o ograniczone przez rozdzielenie odpowiedzialnoœci miêdzy modele i serwisy.  
+Dziêki temu zmiana sposobu raportowania nie wymaga zmian w klasach modelu, a zmiana danych u¿ytkownika nie wp³ywa bezpoœrednio na logikê sprzêtu.
+
+## Regu³y biznesowe
+W projekcie zaimplementowano nastêpuj¹ce regu³y:
+- student mo¿e mieæ maksymalnie 2 aktywne wypo¿yczenia,
+- nauczyciel mo¿e mieæ maksymalnie 5 aktywnych wypo¿yczeñ,
+- sprzêt oznaczony jako `Unavailable` nie mo¿e zostaæ wypo¿yczony,
+- sprzêt wypo¿yczony otrzymuje status `Rented`,
+- opóŸniony zwrot skutkuje naliczeniem kary,
+- kara wynosi 10 jednostek za ka¿dy dzieñ opóŸnienia.
+
+
+
+## Przyk³adowe dane startowe
+Po uruchomieniu programu do pamiêci ³adowani s¹ przyk³adowi u¿ytkownicy i sprzêt:
+- u¿ytkownicy: `Student`, `Teacher`,
+- sprzêt: `Laptop`, `Camera`, `Projector`.
+
+Dziêki temu mo¿na od razu testowaæ funkcje wypo¿yczania, zwrotów i raportowania.
+
