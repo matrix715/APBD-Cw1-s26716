@@ -14,7 +14,7 @@ namespace Cwiczenia2.Services
         private readonly UserService _userService = userService;
         private readonly RentalService _rentalService = rentalService;
 
-      
+
         public string GenerateSystemReport()
         {
             var allEquipment = _equipmentService.GetAllEquipment();
@@ -31,17 +31,17 @@ namespace Cwiczenia2.Services
 
 
             return
-                "===== RENTAL REPORT =====\n" +
+                "-_-_-_-_-_-_-_-_-RENTAL REPORT-_-_-_-_-_-_-_-_-_-_-_-_-\n" +
                 $"Total users: {allUsers.Count}\n" +
                 $"Total equipment: {allEquipment.Count}\n" +
                 $"Available equipment: {availableEquipment}\n" +
                 $"Rented equipment: {rentedEquipment}\n" +
                 $"Unavailable equipment: {unavailableEquipment}\n" +
                 $"Active rentals: {activeRentals}\n" +
-                $"Overdue rentals: {overdueRentals}\n" + 
-                $"Total penalties: {totalPenalties:C}\n";
+                $"Overdue rentals: {overdueRentals}\n" +
+                $"Total penalties: {totalPenalties:C}\n" +
+                "- _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -\n";
         }
-
         public List<Rental> GetOverdueRentals()
         {
             return _rentalService
